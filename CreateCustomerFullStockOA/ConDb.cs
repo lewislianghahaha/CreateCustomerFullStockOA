@@ -23,7 +23,7 @@ namespace CreateCustomerFullStockOA
         private string GetConnectionString(int conid)
         {
            var strcon = conid == 0
-                ? @"Data Source='192.168.1.228';Initial Catalog='AIS20220817082811';Persist Security Info=True;User ID='sa'; Password='kingdee';
+                ? @"Data Source='192.168.1.228';Initial Catalog='AIS20181204095717';Persist Security Info=True;User ID='sa'; Password='kingdee';
                        Pooling=true;Max Pool Size=40000;Min Pool Size=0"
                 : @"Data Source='172.16.4.29';Initial Catalog='ecology';Persist Security Info=True;User ID='sa'; Password='Yatu866';
                        Pooling=true;Max Pool Size=40000;Min Pool Size=0";

@@ -203,7 +203,7 @@ namespace CreateCustomerFullStockOA
                 WorkflowRequestTableField[] workflowtabFields = new WorkflowRequestTableField[1];  //设置主表有多少个字段
 
 
-                #region 循环设置各列字段的相关信息-注:因作为K3插件时不能使用以下代码,导致不能在插入成功后,将明细记录进行插入;故不使用(20220904)
+                #region 循环设置各列字段的相关信息-注:因作为K3插件时不能使用以下代码,导致不能在插入成功并获取requestid后,将明细记录进行插入;故不使用(20220904)
                 //循环设置各列字段的相关信息
                 //workflowtabFields[0] = new WorkflowRequestTableField();
                 //workflowtabFields[0].fieldName = "sqr";
