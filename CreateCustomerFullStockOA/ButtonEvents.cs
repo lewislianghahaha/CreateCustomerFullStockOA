@@ -1,12 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Kingdee.BOS.Core.Bill.PlugIn;
+using Kingdee.BOS.Core.DynamicForm.PlugIn.Args;
 
 namespace CreateCustomerFullStockOA
 {
-    public class ButtonEvents
+    public class ButtonEvents : AbstractBillPlugIn
     {
+        public override void BarItemClick(BarItemClickEventArgs e)
+        {
+            base.BarItemClick(e);
+
+            if (e.BarItemKey == "tbCreateCustFullStock")
+            {
+                
+            }
+
+        }
     }
 }
