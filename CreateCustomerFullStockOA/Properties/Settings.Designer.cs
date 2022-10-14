@@ -26,7 +26,7 @@ namespace CreateCustomerFullStockOA.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://192.168.1.237:8888/services/WorkflowService")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://172.16.4.29:8888/services/WorkflowService")]
         public string CreateCustomerFullStockOA_WebReference_WorkflowService {
             get {
                 return ((string)(this["CreateCustomerFullStockOA_WebReference_WorkflowService"]));

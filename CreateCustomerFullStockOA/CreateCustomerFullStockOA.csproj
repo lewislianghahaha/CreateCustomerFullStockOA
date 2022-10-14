@@ -108,16 +108,18 @@
     <None Include="Web References\WebReference\WorkflowService.wsdl" />
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadata Include="Service References\" />
-  </ItemGroup>
-  <ItemGroup>
     <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
-    <WebReferenceUrl Include="http://192.168.1.237:8888/services/WorkflowService%3fwsdl">
+    <Folder Include="bin\Debug\" />
+    <Folder Include="bin\Release\" />
+    <Folder Include="obj\Debug\TempPE\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferenceUrl Include="http://172.16.4.29:8888/services/WorkflowService%3fwsdl">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\WebReference\</RelPath>
-      <UpdateFromURL>http://192.168.1.237:8888/services/WorkflowService%3fwsdl</UpdateFromURL>
+      <UpdateFromURL>http://172.16.4.29:8888/services/WorkflowService%3fwsdl</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
@@ -127,9 +129,7 @@
     </WebReferenceUrl>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="bin\Debug\" />
-    <Folder Include="bin\Release\" />
-    <Folder Include="obj\Debug\TempPE\" />
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

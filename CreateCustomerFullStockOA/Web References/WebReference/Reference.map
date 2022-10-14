@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <DiscoveryClientResultsFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Results>
-    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.ContractReference" url="http://192.168.1.237:8888/services/WorkflowService?wsdl" filename="WorkflowService.wsdl" />
+    <DiscoveryClientResult referenceType="System.Web.Services.Discovery.ContractReference" url="http://172.16.4.29:8888/services/WorkflowService?wsdl" filename="WorkflowService.wsdl" />
   </Results>
 </DiscoveryClientResultsFile>

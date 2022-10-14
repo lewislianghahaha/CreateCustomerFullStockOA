@@ -22,7 +22,7 @@ namespace CreateCustomerFullStockOA
             var custDt = new DataTable();            //收集'客户'记录表 
             var receivebillDt = new DataTable();    //收集‘收款单’记录表
             decimal receiveable = 0;               //收集‘应收单’记录
-            var custAccount = new DataTable();      //收集‘客户信用额度’记录
+            var custAccount = new DataTable();    //收集‘客户信用额度’记录
 
             try
             {

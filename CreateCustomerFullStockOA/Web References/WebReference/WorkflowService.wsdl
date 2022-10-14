@@ -882,17 +882,10 @@
           <xsd:element minOccurs="0" name="workflowRequestLogs" nillable="true" type="ns1:ArrayOfWorkflowRequestLog" />
         </xsd:sequence>
       </xsd:complexType>
-      <xsd:complexType name="ArrayOfWorkflowDetailTableInfo">
+      <xsd:complexType name="WorkflowMainTableInfo">
         <xsd:sequence>
-          <xsd:element minOccurs="0" maxOccurs="unbounded" name="WorkflowDetailTableInfo" nillable="true" type="ns1:WorkflowDetailTableInfo" />
-        </xsd:sequence>
-      </xsd:complexType>
-      <xsd:complexType name="WorkflowDetailTableInfo">
-        <xsd:sequence>
+          <xsd:element minOccurs="0" name="requestRecords" nillable="true" type="ns1:ArrayOfWorkflowRequestTableRecord" />
           <xsd:element minOccurs="0" name="tableDBName" nillable="true" type="xsd:string" />
-          <xsd:element minOccurs="0" name="tableFieldName" nillable="true" type="tns:ArrayOfString" />
-          <xsd:element minOccurs="0" name="tableTitle" nillable="true" type="xsd:string" />
-          <xsd:element minOccurs="0" name="workflowRequestTableRecords" nillable="true" type="ns1:ArrayOfWorkflowRequestTableRecord" />
         </xsd:sequence>
       </xsd:complexType>
       <xsd:complexType name="ArrayOfWorkflowRequestTableRecord">
@@ -932,6 +925,27 @@
           <xsd:element minOccurs="0" name="view" type="xsd:boolean" />
         </xsd:sequence>
       </xsd:complexType>
+      <xsd:complexType name="WorkflowBaseInfo">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="workflowId" nillable="true" type="xsd:string" />
+          <xsd:element minOccurs="0" name="workflowName" nillable="true" type="xsd:string" />
+          <xsd:element minOccurs="0" name="workflowTypeId" nillable="true" type="xsd:string" />
+          <xsd:element minOccurs="0" name="workflowTypeName" nillable="true" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="ArrayOfWorkflowDetailTableInfo">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="WorkflowDetailTableInfo" nillable="true" type="ns1:WorkflowDetailTableInfo" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:complexType name="WorkflowDetailTableInfo">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="tableDBName" nillable="true" type="xsd:string" />
+          <xsd:element minOccurs="0" name="tableFieldName" nillable="true" type="tns:ArrayOfString" />
+          <xsd:element minOccurs="0" name="tableTitle" nillable="true" type="xsd:string" />
+          <xsd:element minOccurs="0" name="workflowRequestTableRecords" nillable="true" type="ns1:ArrayOfWorkflowRequestTableRecord" />
+        </xsd:sequence>
+      </xsd:complexType>
       <xsd:complexType name="ArrayOfWorkflowRequestLog">
         <xsd:sequence>
           <xsd:element minOccurs="0" maxOccurs="unbounded" name="WorkflowRequestLog" nillable="true" type="ns1:WorkflowRequestLog" />
@@ -957,20 +971,6 @@
           <xsd:element minOccurs="0" name="remarkSign" nillable="true" type="xsd:string" />
           <xsd:element minOccurs="0" name="signDocHtmls" nillable="true" type="xsd:string" />
           <xsd:element minOccurs="0" name="signWorkFlowHtmls" nillable="true" type="xsd:string" />
-        </xsd:sequence>
-      </xsd:complexType>
-      <xsd:complexType name="WorkflowMainTableInfo">
-        <xsd:sequence>
-          <xsd:element minOccurs="0" name="requestRecords" nillable="true" type="ns1:ArrayOfWorkflowRequestTableRecord" />
-          <xsd:element minOccurs="0" name="tableDBName" nillable="true" type="xsd:string" />
-        </xsd:sequence>
-      </xsd:complexType>
-      <xsd:complexType name="WorkflowBaseInfo">
-        <xsd:sequence>
-          <xsd:element minOccurs="0" name="workflowId" nillable="true" type="xsd:string" />
-          <xsd:element minOccurs="0" name="workflowName" nillable="true" type="xsd:string" />
-          <xsd:element minOccurs="0" name="workflowTypeId" nillable="true" type="xsd:string" />
-          <xsd:element minOccurs="0" name="workflowTypeName" nillable="true" type="xsd:string" />
         </xsd:sequence>
       </xsd:complexType>
       <xsd:complexType name="ArrayOfWorkflowRequestInfo">
@@ -1942,7 +1942,7 @@
   </wsdl:binding>
   <wsdl:service name="WorkflowService">
     <wsdl:port name="WorkflowServiceHttpPort" binding="tns:WorkflowServiceHttpBinding">
-      <wsdlsoap:address location="http://192.168.1.237:8888/services/WorkflowService" />
+      <wsdlsoap:address location="http://172.16.4.29:8888/services/WorkflowService" />
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>
