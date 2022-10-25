@@ -14,9 +14,8 @@ namespace CreateCustomerFullStockOA
         /// 获取相关信息,并将K3信息通过OA接口传输至OA,最后达到创建新流程目的
         /// </summary>
         /// <param name="orderno">发货通知单号</param>
-        /// <param name="username">当前用户名称</param>
         /// <returns></returns>
-        public string GetMessageIntoOa(string orderno,string username)
+        public string GetMessageIntoOa(string orderno)
         {
             var result = "Finish";
             var custDt = new DataTable();            //收集'客户'记录表 
@@ -32,8 +31,14 @@ namespace CreateCustomerFullStockOA
                 //根据orderno获取‘发货通知单’信息
                 var noticeDt = searchDt.SearchDeliveryNotice(orderno).Copy();
 
+                //根据发货通知单‘销售经理’名称获取对应OA人员ID
+                var salesnameOaDt = searchDt.SearchOaInfo(Convert.ToString(noticeDt.Rows[0][9])).Copy();
+
+                //根据发货通知单.创建人名称获取对应OA人员ID信息
+                var createnameOaDt = searchDt.SearchOaInfo(Convert.ToString(noticeDt.Rows[0][10])).Copy();
+
                 //根据username获取OA-人员ID 及 部门ID
-                var oaDt = searchDt.SearchOaInfo(username).Copy();
+                // var oaDt = searchDt.SearchOaInfo(username).Copy();
 
                 //根据noticeDt中的custid获取‘客户’信息
                 if (noticeDt.Rows.Count > 0)
@@ -52,13 +57,13 @@ namespace CreateCustomerFullStockOA
                     custAccount = searchDt.CheckCustAccount(Convert.ToInt32(noticeDt.Rows[0][0]));
 
                 //将以上收集的信息插入至oatempdt内
-                oatempdt.Merge(InsertDtIntoTemp(oatempdt,noticeDt,oaDt,custDt,receivebillDt,receiveable, custAccount));
+                oatempdt.Merge(InsertDtIntoTemp(oatempdt,noticeDt, salesnameOaDt, createnameOaDt, custDt,receivebillDt,receiveable, custAccount));
 
                 //对oatempdt表进行数据处理,便于在最后更新时使用
                 var updatelist = GetUpdateList(oatempdt);
 
                 //将oatempdt数据作为OA接口进行输出,并最后执行OA API方法
-                var resultvalue = CreateOaWorkFlow(Convert.ToInt32(oaDt.Rows[0][0]), updatelist);
+                var resultvalue = CreateOaWorkFlow(Convert.ToInt32(createnameOaDt.Rows[0][0]), updatelist);
 
                 result = resultvalue == "Finish" ? "Finish" : $"生成OA-超额客户出货流程导常,请联系管理员";
 
@@ -99,21 +104,23 @@ namespace CreateCustomerFullStockOA
         /// </summary>
         /// <param name="dt"></param>
         /// <param name="noticedt">发货通知单临时表</param>
-        /// <param name="oadt">OA临时表</param>
+        /// <param name="salesnameOaDt">‘销售经理’名称获取对应OA人员ID</param>
+        /// <param name="createnameOaDt">'创建人名称'获取对应OA人员ID信息</param>
         /// <param name="custdt">客户临时表</param>
         /// <param name="receivebillDt">收款单临时表</param>
         /// <param name="receiveable">应收单临时表</param>
         /// <param name="custAccount">客户信用额度-需要在此临时表有记录才将客户相关值插入;反之插入空值</param>
         /// <returns></returns>
-        private DataTable InsertDtIntoTemp(DataTable dt,DataTable noticedt,DataTable oadt,DataTable custdt, DataTable receivebillDt, decimal receiveable
-                                           , DataTable custAccount)
+        private DataTable InsertDtIntoTemp(DataTable dt,DataTable noticedt,DataTable salesnameOaDt,DataTable createnameOaDt
+                                           , DataTable custdt, DataTable receivebillDt, decimal receiveable, DataTable custAccount)
         {
             //将相关值插入至tempdt表内
             var newrow = dt.NewRow();
-            newrow[0] = oadt.Rows.Count > 0 ? Convert.ToInt32(oadt.Rows[0][0]) : 0;                   //申请人   --来源:OA临时表
-            newrow[1] = oadt.Rows.Count > 0 ? Convert.ToString(oadt.Rows[0][4]) : "";               //申请日期 --来源:OA临时表
-            newrow[2] = oadt.Rows.Count > 0 ? Convert.ToInt32(oadt.Rows[0][2]) : 0;                   //申请部门  --来源:OA临时表
-            newrow[3] = oadt.Rows.Count > 0 ? Convert.ToInt32(oadt.Rows[0][3]) : 0;                   //岗位      --来源:OA临时表
+            newrow[0] = salesnameOaDt.Rows.Count > 0 ? Convert.ToInt32(salesnameOaDt.Rows[0][0]) : 0;                   //申请人(销售经理)   --来源:OA临时表
+            newrow[1] = createnameOaDt.Rows.Count > 0 ? Convert.ToString(createnameOaDt.Rows[0][4]) : "";               //申请日期 --来源:OA临时表
+            newrow[2] = createnameOaDt.Rows.Count > 0 ? Convert.ToInt32(createnameOaDt.Rows[0][2]) : 0;                 //申请部门  --来源:OA临时表
+            newrow[3] = 0;//oadt.Rows.Count > 0 ? Convert.ToInt32(oadt.Rows[0][3]) : 0;                   //岗位      --来源:OA临时表 change date:20221025 对‘岗位’项不设置信息
+            newrow[23] = createnameOaDt.Rows.Count > 0 ? Convert.ToInt32(createnameOaDt.Rows[0][0]) : 0;                //change date:20221025 设置代办人为‘发货通知单’创建人
 
             if (custAccount.Rows.Count > 0)
             {

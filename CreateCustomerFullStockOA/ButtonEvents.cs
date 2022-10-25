@@ -21,9 +21,9 @@ namespace CreateCustomerFullStockOA
                 if (orderstatus == "C")
                 {
                     //获取当前登录用户
-                    var username = this.Context.UserName;
+                  //  var username = this.Context.UserName;
                     //执行运算并返回相关结果
-                    var mesage = generateDt.GetMessageIntoOa(orderno, username);
+                    var mesage = generateDt.GetMessageIntoOa(orderno);
                     //View.ShowMessage(mesage);
                     View.ShowMessage(mesage != "Finish" ? $"新增超额出货异常,原因:'{mesage}'" : "新增成功,请打开OA,并留意右下角的OA信息提示");
                 }

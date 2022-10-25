@@ -19,6 +19,9 @@
 			        ,X.[超额欠款(元)],X.[超期天数(天)]
 			        ,X.当天申请出货金额		
                     ,X.[超额欠款(元)]+X.当天申请出货金额 [出货后超出信用额度欠款(元)]   --公式：超额欠款+当天申请出货金额 
+                    ,X.销售员
+					,X.创建人
+
                     FROM (
                     SELECT A.FCUSTOMERID,A.FBILLNO K3出库单号,A.F_YTC_TEXT4 销售订单号,
                                 ROUND(A.F_YTC_DECIMAL,2) [当前信用额度(元)]
@@ -26,13 +29,19 @@
 			                    ,ROUND(A.F_YTC_DECIMAL2,2) [超额欠款(元)]
 			                    ,A.F_YTC_INTEGER1 [超期天数(天)]
 			                    ,ISNULL(SUM(B.FALLAMOUNT_LC),0) 当天申请出货金额
+								,D.FNAME 销售员
+								,E.FNAME 创建人
 
                     FROM dbo.T_SAL_DELIVERYNOTICE A
                     INNER JOIN dbo.T_SAL_DELIVERYNOTICEENTRY_F B ON A.FID=B.FID
+					LEFT JOIN V_BD_SALESMAN c ON a.FSALESMANID=c.fid
+					LEFT JOIN dbo.V_BD_SALESMAN_L D ON C.fid=D.fid  AND D.FLOCALEID=2052
+					INNER JOIN dbo.T_SEC_USER E ON A.FCREATORID=E.FUSERID
+
                     WHERE /*a.FDOCUMENTSTATUS='C'    --需为已审核 
                     AND*/ A.FBILLNO='{orderno}'      --'FHTZD160918'
                     GROUP BY A.FCUSTOMERID,A.FBILLNO,A.F_YTC_TEXT4,A.F_YTC_DECIMAL
-			                    ,A.F_YTC_INTEGER,A.F_YTC_DECIMAL2,A.F_YTC_INTEGER1)X
+			                    ,A.F_YTC_INTEGER,A.F_YTC_DECIMAL2,A.F_YTC_INTEGER1,D.FNAME,E.FNAME)X
                   ";
 
             return _result;
@@ -159,6 +168,15 @@
             return _result;
         }
 
+
+
+
+        /// <summary>
+        /// 插入成功后,更新OA相关信息
+        /// </summary>
+        /// <param name="requestid"></param>
+        /// <param name="updatelistvalue"></param>
+        /// <returns></returns>
         public string UpdateRecord(string requestid, string updatelistvalue)
         {
             _result =

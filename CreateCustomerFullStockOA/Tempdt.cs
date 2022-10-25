@@ -13,12 +13,12 @@ namespace CreateCustomerFullStockOA
         public DataTable InsertOaRecord()
         {
             var dt = new DataTable();
-            for (var i = 0; i < 23; i++)
+            for (var i = 0; i < 24; i++)
             {
                 var dc = new DataColumn();
                 switch (i)
                 {
-                    //申请人
+                    //申请人(销售经理)
                     case 0:
                         dc.ColumnName = "sqr";
                         dc.DataType = Type.GetType("System.Int32");
@@ -33,7 +33,7 @@ namespace CreateCustomerFullStockOA
                         dc.ColumnName = "sqbm";
                         dc.DataType = Type.GetType("System.Int32");
                         break;
-                    //岗位
+                    //岗位  *
                     case 3:
                         dc.ColumnName = "jobtitle";
                         dc.DataType = Type.GetType("System.Int32");
@@ -132,6 +132,11 @@ namespace CreateCustomerFullStockOA
                     case 22:
                         dc.ColumnName = "chhccxyedqky";
                         dc.DataType = Type.GetType("System.Decimal");
+                        break;
+                    //代办人姓名
+                    case 23:
+                        dc.ColumnName = "chhccxyedqky";
+                        dc.DataType = Type.GetType("System.Int32"); 
                         break;
                 }
                 dt.Columns.Add(dc);
