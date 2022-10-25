@@ -13,7 +13,7 @@ namespace CreateCustomerFullStockOA
         public DataTable InsertOaRecord()
         {
             var dt = new DataTable();
-            for (var i = 0; i < 24; i++)
+            for (var i = 0; i < 25; i++)
             {
                 var dc = new DataColumn();
                 switch (i)
@@ -137,6 +137,11 @@ namespace CreateCustomerFullStockOA
                     case 23:
                         dc.ColumnName = "dbrxm";
                         dc.DataType = Type.GetType("System.Int32"); 
+                        break;
+                    //所属大区
+                    case 24:
+                        dc.ColumnName = "sqrdq";
+                        dc.DataType = Type.GetType("System.Int32");
                         break;
                 }
                 dt.Columns.Add(dc);

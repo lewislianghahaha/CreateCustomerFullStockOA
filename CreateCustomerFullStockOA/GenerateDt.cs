@@ -120,8 +120,9 @@ namespace CreateCustomerFullStockOA
             newrow[0] = salesnameOaDt.Rows.Count > 0 ? Convert.ToInt32(salesnameOaDt.Rows[0][0]) : 0;                   //申请人(销售经理)   --来源:OA临时表
             newrow[1] = createnameOaDt.Rows.Count > 0 ? Convert.ToString(createnameOaDt.Rows[0][4]) : "";               //申请日期 --来源:OA临时表
             newrow[2] = createnameOaDt.Rows.Count > 0 ? Convert.ToInt32(createnameOaDt.Rows[0][2]) : 0;                 //申请部门  --来源:OA临时表
-            newrow[3] = 0;//oadt.Rows.Count > 0 ? Convert.ToInt32(oadt.Rows[0][3]) : 0;                   //岗位      --来源:OA临时表 change date:20221025 对‘岗位’项不设置信息
+            newrow[3] = salesnameOaDt.Rows.Count > 0 ? Convert.ToInt32(salesnameOaDt.Rows[0][3]) : 0;                   //岗位      --来源:OA临时表 change date:20221026 ‘岗位’来源‘销售经理’OA
             newrow[23] = createnameOaDt.Rows.Count > 0 ? Convert.ToInt32(createnameOaDt.Rows[0][0]) : 0;                //change date:20221025 设置代办人为‘发货通知单’创建人
+            newrow[24] = salesnameOaDt.Rows.Count > 0 ? Convert.ToInt32(salesnameOaDt.Rows[0][2]) : 0; ;                //change date:20221026 设置‘所属大区’来源：销售经理OA
 
             if (custAccount.Rows.Count > 0)
             {
