@@ -135,7 +135,7 @@ namespace CreateCustomerFullStockOA
                         break;
                     //代办人姓名
                     case 23:
-                        dc.ColumnName = "chhccxyedqky";
+                        dc.ColumnName = "dbrxm";
                         dc.DataType = Type.GetType("System.Int32"); 
                         break;
                 }
