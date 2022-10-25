@@ -9,13 +9,14 @@ namespace CreateCustomerFullStockOA
     {
         SearchDt searchDt=new SearchDt();
         Tempdt tempdt=new Tempdt();
-       
+
         /// <summary>
         /// 获取相关信息,并将K3信息通过OA接口传输至OA,最后达到创建新流程目的
         /// </summary>
         /// <param name="orderno">发货通知单号</param>
+        /// <param name="username">记录K3登录用户ID,创建流程时使用</param>
         /// <returns></returns>
-        public string GetMessageIntoOa(string orderno)
+        public string GetMessageIntoOa(string orderno,string username)
         {
             var result = "Finish";
             var custDt = new DataTable();            //收集'客户'记录表 
@@ -38,7 +39,7 @@ namespace CreateCustomerFullStockOA
                 var createnameOaDt = searchDt.SearchOaInfo(Convert.ToString(noticeDt.Rows[0][10])).Copy();
 
                 //根据username获取OA-人员ID 及 部门ID
-                // var oaDt = searchDt.SearchOaInfo(username).Copy();
+                 var oaDt = searchDt.SearchOaInfo(username).Copy();
 
                 //根据noticeDt中的custid获取‘客户’信息
                 if (noticeDt.Rows.Count > 0)
@@ -63,7 +64,7 @@ namespace CreateCustomerFullStockOA
                 var updatelist = GetUpdateList(oatempdt);
 
                 //将oatempdt数据作为OA接口进行输出,并最后执行OA API方法
-                var resultvalue = CreateOaWorkFlow(Convert.ToInt32(createnameOaDt.Rows[0][0]), updatelist);
+                var resultvalue = CreateOaWorkFlow(Convert.ToInt32(oaDt.Rows[0][0]), updatelist);
 
                 result = resultvalue == "Finish" ? "Finish" : $"生成OA-超额客户出货流程导常,请联系管理员";
 
