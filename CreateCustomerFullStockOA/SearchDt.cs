@@ -92,7 +92,7 @@ namespace CreateCustomerFullStockOA
         }
 
         /// <summary>
-        /// 检查客户是否有信用额度,有才将客户的所有相关信息插入
+        /// 检查客户是否有信用额度,有才将客户的所有相关信息插入(no need)
         /// </summary>
         /// <param name="custid"></param>
         /// <returns></returns>
@@ -111,6 +111,17 @@ namespace CreateCustomerFullStockOA
         public DataTable SearchOaInfo(string username)
         {
             var dt = UseSqlSearchIntoDt(1, sqlList.SearchOaInfo(username));
+            return dt;
+        }
+
+        /// <summary>
+        /// 根据发货通知单-客户-获取FISCREDITCHECK (启用信息管理) 0：否 1：是
+        /// </summary>
+        /// <param name="custid"></param>
+        /// <returns></returns>
+        public DataTable CheckisOpen(int custid)
+        {
+            var dt = UseSqlSearchIntoDt(0, sqlList.CheckisOpen(custid));
             return dt;
         }
 

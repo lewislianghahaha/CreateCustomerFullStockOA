@@ -140,7 +140,7 @@
         }
 
         /// <summary>
-        /// 检查客户是否有信用额度,有才将客户的所有相关信息插入
+        /// 检查客户是否有信用额度,有才将客户的所有相关信息插入(no need)
         /// </summary>
         /// <param name="custid"></param>
         /// <returns></returns>
@@ -168,7 +168,20 @@
             return _result;
         }
 
+        /// <summary>
+        /// 根据发货通知单-客户-获取FISCREDITCHECK (启用信息管理) 0：否 1：是
+        /// </summary>
+        /// <param name="custid"></param>
+        /// <returns></returns>
+        public string CheckisOpen(int custid)
+        {
+            _result = $@"
+                           SELECT A.FCUSTID,A.FNUMBER,A.FISCREDITCHECK 
+                           FROM dbo.T_BD_CUSTOMER A
+                           WHERE A.FCUSTID='{custid}'";
 
+            return _result;
+        }
 
 
         /// <summary>
