@@ -1,4 +1,6 @@
-﻿namespace CreateCustomerFullStockOA
+﻿using Kingdee.BOS.Orm.Exceptions;
+
+namespace CreateCustomerFullStockOA
 {
     //SQL语句
     public class SqlList
@@ -171,14 +173,15 @@
         /// <summary>
         /// 根据发货通知单-客户-获取FISCREDITCHECK (启用信息管理) 0：否 1：是
         /// </summary>
-        /// <param name="custid"></param>
+        /// <param name="orderno">单据编号</param>
         /// <returns></returns>
-        public string CheckisOpen(int custid)
+        public string CheckisOpen(string orderno)
         {
             _result = $@"
-                           SELECT A.FCUSTID,A.FNUMBER,A.FISCREDITCHECK 
-                           FROM dbo.T_BD_CUSTOMER A
-                           WHERE A.FCUSTID='{custid}'";
+                           SELECT A.FCUSTOMERID,B.FISCREDITCHECK
+                           FROM dbo.T_SAL_DELIVERYNOTICE A
+                           INNER JOIN dbo.T_BD_CUSTOMER B ON A.FCUSTOMERID=B.FCUSTID
+                           WHERE A.FBILLNO='{orderno}'";
 
             return _result;
         }

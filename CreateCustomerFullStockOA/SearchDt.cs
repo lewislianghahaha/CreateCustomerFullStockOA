@@ -117,11 +117,11 @@ namespace CreateCustomerFullStockOA
         /// <summary>
         /// 根据发货通知单-客户-获取FISCREDITCHECK (启用信息管理) 0：否 1：是
         /// </summary>
-        /// <param name="custid"></param>
+        /// <param name="orderno"></param>
         /// <returns></returns>
-        public DataTable CheckisOpen(int custid)
+        public DataTable CheckisOpen(string orderno)
         {
-            var dt = UseSqlSearchIntoDt(0, sqlList.CheckisOpen(custid));
+            var dt = UseSqlSearchIntoDt(0, sqlList.CheckisOpen(orderno));
             return dt;
         }
 

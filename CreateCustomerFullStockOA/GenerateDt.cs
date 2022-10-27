@@ -15,9 +15,8 @@ namespace CreateCustomerFullStockOA
         /// </summary>
         /// <param name="orderno">发货通知单号</param>
         /// <param name="username">记录K3登录用户ID,创建流程时使用</param>
-        /// <param name="fcusid">发货通知单-客户ID</param>
         /// <returns></returns>
-        public string GetMessageIntoOa(string orderno,string username,int fcusid)
+        public string GetMessageIntoOa(string orderno,string username)
         {
             var result = "Finish";
             var custDt = new DataTable();            //收集'客户'记录表 
@@ -28,9 +27,9 @@ namespace CreateCustomerFullStockOA
             try
             {
                 //根据fcustid判断客户是否勾选‘启用信息管理’ 0：否 1：是
-                var checkdt = searchDt.CheckisOpen(fcusid).Copy();
+                var checkdt = searchDt.CheckisOpen(orderno).Copy();
 
-                if (Convert.ToInt32(checkdt.Rows[0][2]) == 0)
+                if (Convert.ToInt32(checkdt.Rows[0][1]) == 0)
                 {
                     result = "发起流程失败,该客户没有启用‘信息管理’,不作下推OA流程处理";
                 }
