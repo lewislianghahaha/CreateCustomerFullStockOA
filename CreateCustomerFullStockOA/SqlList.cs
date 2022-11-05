@@ -38,8 +38,8 @@ namespace CreateCustomerFullStockOA
                     FROM dbo.T_SAL_DELIVERYNOTICE A
                     INNER JOIN dbo.T_SAL_DELIVERYNOTICEENTRY_F B ON A.FID=B.FID
 					INNER JOIN dbo.T_BD_CUSTOMER C ON A.FCUSTOMERID=C.FCUSTID
-                    WHERE a.FDOCUMENTSTATUS='C'    --需为已审核 
-                    AND A.FBILLNO='{orderno}'      --'FHTZD160918'  
+                    WHERE /*a.FDOCUMENTSTATUS='C'    --需为已审核 
+                    AND*/ A.FBILLNO='{orderno}'      --'FHTZD160918'  
                     GROUP BY A.FCUSTOMERID,A.FBILLNO,A.F_YTC_TEXT4,A.F_YTC_DECIMAL
 			                    ,A.F_YTC_INTEGER,A.F_YTC_DECIMAL2,A.F_YTC_INTEGER1
 								,A.FDATE,C.FNUMBER)X
