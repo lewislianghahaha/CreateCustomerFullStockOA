@@ -126,6 +126,20 @@ namespace CreateCustomerFullStockOA
         }
 
         /// <summary>
+        /// 根据指定条件获取‘各事业部风险账报表’记录
+        /// </summary>
+        /// <param name="sdt"></param>
+        /// <param name="edt"></param>
+        /// <param name="scustcode"></param>
+        /// <param name="ecustcode"></param>
+        /// <returns></returns>
+        public DataTable SearchAmount(string sdt, string edt, string scustcode, string ecustcode)
+        {
+            var dt = UseSqlSearchIntoDt(0, sqlList.SearchAmount(sdt, edt, scustcode, ecustcode));
+            return dt;
+        }
+
+        /// <summary>
         /// 最后在创建requestid后,对指定记录进行更新记录
         /// </summary>
         /// <param name="requestid"></param>
