@@ -42,9 +42,8 @@ namespace CreateCustomerFullStockOA
                     var noticeDt = searchDt.SearchDeliveryNotice(orderno).Copy();
 
                     //根据‘发货通知单’ 中的‘单据日期’及‘客户代码’为条件,获取‘各事业部风险账报表’中的‘期末余额’及‘超额’记录
-                    var amountdt = searchDt.SearchAmount(Convert.ToString(noticeDt.Rows[0][9]),
-                                                        Convert.ToString(noticeDt.Rows[0][9]), Convert.ToString(noticeDt.Rows[0][10]),
-                                                        Convert.ToString(noticeDt.Rows[0][10]));
+                    var amountdt = searchDt.SearchAmount(Convert.ToString(noticeDt.Rows[0][11]),Convert.ToString(noticeDt.Rows[0][11]), 
+                                                        Convert.ToString(noticeDt.Rows[0][12]),Convert.ToString(noticeDt.Rows[0][12]));
 
                     //根据发货通知单‘销售经理’名称获取对应OA人员ID
                     var salesnameOaDt = searchDt.SearchOaInfo(Convert.ToString(noticeDt.Rows[0][9])).Copy();
@@ -130,6 +129,8 @@ namespace CreateCustomerFullStockOA
         private DataTable InsertDtIntoTemp(DataTable dt,DataTable noticedt,DataTable salesnameOaDt,DataTable createnameOaDt
                                            , DataTable custdt, DataTable receivebillDt, decimal receiveable,DataTable amountdt)
         {
+            decimal amount; //记录出货后超出信用额度欠款(元)
+
             //将相关值插入至tempdt表内
             var newrow = dt.NewRow();
             newrow[0] = salesnameOaDt.Rows.Count > 0 ? Convert.ToInt32(salesnameOaDt.Rows[0][0]) : 0;                   //申请人(销售经理)   --来源:OA临时表
@@ -161,11 +162,27 @@ namespace CreateCustomerFullStockOA
 
             newrow[21] = noticedt.Rows.Count > 0 ? Convert.ToDecimal(noticedt.Rows[0][7]) : 0;         //当天申请出货金额(元) --来源:noticedt *
 
-           // newrow[22] = noticedt.Rows.Count > 0 ? Convert.ToDecimal(noticedt.Rows[0][8]) : 0;         //出货后超出信用额度欠款(元) --来源:noticedt *
+            // newrow[22] = noticedt.Rows.Count > 0 ? Convert.ToDecimal(noticedt.Rows[0][8]) : 0;         //出货后超出信用额度欠款(元) --来源:noticedt *
 
-            newrow[22] = amountdt.Rows.Count > 0 ? Convert.ToDecimal(amountdt.Rows[0][1]) + noticedt.Rows.Count > 0 ? Convert.ToDecimal(noticedt.Rows[0][7]) : 0 :0;
+            if (amountdt.Rows.Count == 0 && noticedt.Rows.Count == 0)
+            {
+                amount = 0;
+            }
+            else if (amountdt.Rows.Count == 0 && noticedt.Rows.Count>0)
+            {
+                amount = Convert.ToDecimal(noticedt.Rows[0][7]);
+            }
+            else if (noticedt.Rows.Count == 0 && amountdt.Rows.Count>0)
+            {
+                amount = Convert.ToDecimal(amountdt.Rows[0][1]);
+            }
+            else
+            {
+                amount = Convert.ToDecimal(amountdt.Rows[0][1]) + Convert.ToDecimal(noticedt.Rows[0][7]);
+            }
+
+            newrow[22] = amount;
             //出货后超出信用额度欠款(元) 来源:amountdt change date:20221105  出货后超出信用额度欠款(元)=超额欠款(元)+当天申请出货金额(元)
-
             newrow[25] = amountdt.Rows.Count > 0 ? Convert.ToDecimal(amountdt.Rows[0][0]) : 0;         //期末余额 --来源:amountdt change date:20221105
 
             dt.Rows.Add(newrow);

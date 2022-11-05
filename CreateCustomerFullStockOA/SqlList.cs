@@ -22,6 +22,8 @@ namespace CreateCustomerFullStockOA
 					,X.[超期天数(天)]
 			        ,X.当天申请出货金额		
                     ,X.[超额欠款(元)]+X.当天申请出货金额 [出货后超出信用额度欠款(元)]   --公式：超额欠款+当天申请出货金额 (NO NEED)
+                    ,X.销售员
+					,X.创建人
 					,X.单据日期
 					,X.客户编码
 
@@ -34,15 +36,21 @@ namespace CreateCustomerFullStockOA
 			                    ,ISNULL(SUM(B.FALLAMOUNT_LC),0) 当天申请出货金额
 								,CONVERT(VARCHAR(10),A.FDATE,23) 单据日期
 								,C.FNUMBER 客户编码
+                                ,E.FNAME 销售员
+								,F.FNAME 创建人
 
                     FROM dbo.T_SAL_DELIVERYNOTICE A
                     INNER JOIN dbo.T_SAL_DELIVERYNOTICEENTRY_F B ON A.FID=B.FID
 					INNER JOIN dbo.T_BD_CUSTOMER C ON A.FCUSTOMERID=C.FCUSTID
+                    LEFT JOIN V_BD_SALESMAN d ON a.FSALESMANID=d.fid
+					LEFT JOIN dbo.V_BD_SALESMAN_L e ON d.fid=e.fid  AND e.FLOCALEID=2052
+					INNER JOIN dbo.T_SEC_USER f ON A.FCREATORID=f.FUSERID
+
                     WHERE /*a.FDOCUMENTSTATUS='C'    --需为已审核 
                     AND*/ A.FBILLNO='{orderno}'      --'FHTZD160918'  
                     GROUP BY A.FCUSTOMERID,A.FBILLNO,A.F_YTC_TEXT4,A.F_YTC_DECIMAL
 			                    ,A.F_YTC_INTEGER,A.F_YTC_DECIMAL2,A.F_YTC_INTEGER1
-								,A.FDATE,C.FNUMBER)X
+								,A.FDATE,C.FNUMBER,E.FNAME,F.FNAME)X
                   ";
 
             return _result;
