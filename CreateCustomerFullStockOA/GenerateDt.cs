@@ -78,7 +78,7 @@ namespace CreateCustomerFullStockOA
                     var updatelist = GetUpdateList(oatempdt);
 
                     //将oatempdt数据作为OA接口进行输出,并最后执行OA API方法
-                    var resultvalue = CreateOaWorkFlow(Convert.ToInt32(oaDt.Rows[0][0]), updatelist);
+                    var resultvalue = CreateOaWorkFlow(Convert.ToInt32(oaDt.Rows[0][0]), updatelist, Convert.ToString(custDt.Rows[0][2]));
 
                     result = resultvalue == "Finish" ? "Finish" : $"生成OA-超额客户出货流程导常,请联系管理员";
                 }
@@ -194,8 +194,9 @@ namespace CreateCustomerFullStockOA
         /// </summary>
         /// <param name="createid">用户ID;创建流程时必需</param>
         /// <param name="updatelist"></param>
+        /// <param name="customername">客户名称</param>
         /// <returns></returns>
-        private string CreateOaWorkFlow(int createid,string updatelist)
+        private string CreateOaWorkFlow(int createid,string updatelist,string customername)
         {
             var result = string.Empty;
 
@@ -208,7 +209,8 @@ namespace CreateCustomerFullStockOA
 
                 //设置工作流ID_必须添加(重)
                 baseInfo.workflowId = "68";  //"129";
-                baseInfo.workflowName = "超额客户出货";
+                //设置工作流名称_必须添加(重)
+                baseInfo.workflowName = customername+"-超额出货";//"超额客户出货";
 
                 //设置如能否修改 查询等基础信息
                 workflowRequestInfo.canView = true;
